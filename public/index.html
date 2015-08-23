@@ -1,0 +1,75 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="dictApp">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Dictionary App</title>
+
+    <link rel="stylesheet" href='./stylesheets/bootstrap.min.css'>
+    <link rel="stylesheet" href="./stylesheets/main.css">
+
+</head>
+
+<body ng-controller="mainController">
+	<div class="app-header">Here comes the Header!!</div>
+	<div class="app-content">
+		<div class="container-fluid dictionary_container">
+		    <div class="row">
+		        <div class="col-xs-8 words_container ">
+		        	<div>
+		        		<label>Selected Word:</label>
+			            <label>Test 
+			            	<span class="glyphicon glyphicon-volume-up"></span>
+			            	<span class="glyphicon glyphicon-bookmark"></span>
+			            	<span class="glyphicon glyphicon-share-alt"></span>
+			            </label>
+		        	</div>
+		            <div class='search_word'>
+		            	<input type='text' 
+		            		value='' 
+		            		ng-model='query'
+		            		id='search_box' 
+		            		autofocus
+		            		keypress='search(query)'
+		            		placeholder='Search'/>
+		            	<label>{{query}}</label>
+		            </div>
+		            <div class='search_results'>
+		            	<div class="table-responsive">
+							<table class="table table-hover table-bordered">
+								<tr class='row' ng-repeat='result in searchResults'>
+									<td>{{ result.word }}</td>
+									<td>{{ result.description }}</td>
+								</tr>
+							</table>
+						</div>
+		            </div>
+		        </div>
+		        <div class="col-xs-4 bookmarks_container">
+		            <div class='bookmark-header'>
+		            	<label><span class='glyphicon glyphicon-list'></span>Bookmark History</label>
+		            </div>
+		            <div class='bookmark-content'>
+		            	<div class='bookmarks'>
+		            		<div ng-repeat='bookmark in bookmarks'>
+		            			<span class='bookmark'>{{bookmark.word}} <span class='glyphicon glyphicon-align-justify'></span></span>
+		            		</div>
+		            	</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+    <div class="app-footer">This is footer!!</div>
+    <script src='./js/bootstrap.js'></script>
+    <script src='./js/jquery.min.js'></script>
+    <script src="./js/angular.js"></script>
+    <script src="core.js"></script>
+</body>
+</html>

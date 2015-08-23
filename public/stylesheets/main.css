@@ -1,0 +1,22 @@
+.dictionary_container {
+	width :100%;
+}
+
+.words_container {
+	width: 70%;
+    height: 818px;
+    border: 1px solid blue;
+}
+.bookmarks_container{
+	width: 30%;
+	border: 1px solid blue;
+	height: 818px;
+}
+
+.app-footer{
+	border: 1px solid blue;
+}
+
+.app-header{
+	border: 1px solid blue;
+}
