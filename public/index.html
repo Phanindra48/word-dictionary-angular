@@ -10,8 +10,9 @@
 
     <title>Dictionary App</title>
 
-    <link rel="stylesheet" href='./stylesheets/bootstrap.min.css'>
-    <link rel="stylesheet" href="./stylesheets/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="./css/main.css">
 
 </head>
 
@@ -20,12 +21,17 @@
 	<div class="app-content">
 		<div class="container-fluid dictionary_container">
 		    <div class="row">
-		        <div class="col-xs-8 words_container ">
+		        <div class="col-xs-8 words_container">
 		        	<div>
 		        		<label>Selected Word:</label>
-			            <label>Test 
-			            	<span class="glyphicon glyphicon-volume-up"></span>
-			            	<span class="glyphicon glyphicon-bookmark"></span>
+			            <label>{{ selected_word.word }}			            	
+			            	<span class="glyphicon glyphicon-volume-up" ng-click="play('audio')">
+					            <audio id="audio">
+					                <source src={{ selected_word.audio_url }}></source>
+					            Your browser isn't invited for super fun audio time.
+					            </audio>
+					        </span>
+			            	<span class="glyphicon glyphicon-bookmark" ng-click='createBookmark(selected_word)'></span>
 			            	<span class="glyphicon glyphicon-share-alt"></span>
 			            </label>
 		        	</div>
@@ -37,16 +43,31 @@
 		            		autofocus
 		            		keypress='search(query)'
 		            		placeholder='Search'/>
-		            	<label>{{query}}</label>
 		            </div>
 		            <div class='search_results'>
 		            	<div class="table-responsive">
 							<table class="table table-hover table-bordered">
-								<tr class='row' ng-repeat='result in searchResults'>
-									<td>{{ result.word }}</td>
-									<td>{{ result.description }}</td>
-								</tr>
+								<thead>
+									<tr class='row'>
+										<th class='col-xs-4'>Word</th>
+										<th class='col-xs-8'>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='row' ng-repeat="result in filteredResults" ng-click='setSelectedWord(result)'>
+										<td class='col-xs-4'>{{ result.word }}</td>
+										<td class='col-xs-8'>{{ result.description }}</td>
+									</tr>
+								</tbody>
 							</table>
+						    <pagination 
+						      ng-model="currentPage"
+						      total-items="searchResults.length"
+						      max-size="maxSize"  
+						      boundary-links="true"
+						      class='pull-right'>
+						    </pagination>
+						    <hr/>
 						</div>
 		            </div>
 		        </div>
@@ -67,9 +88,13 @@
 	</div>
 	
     <div class="app-footer">This is footer!!</div>
-    <script src='./js/bootstrap.js'></script>
     <script src='./js/jquery.min.js'></script>
-    <script src="./js/angular.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.3.js"></script>
+    
+    
     <script src="core.js"></script>
 </body>
 </html>

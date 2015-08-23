@@ -46,9 +46,10 @@ app.post('/api/bookmarks', function(req, res) {
     console.log('server api got hit');
     var bookmark = new Bookmark({
         word: req.body.word,
-        description: 'some description',
-        audio_url : 'www.google.com'
+        description: req.body.description,
+        audio_url : req.body.audio_url
     });
+    console.log(bookmark);
     // create a bookmark, information comes from AJAX request from Angular
     bookmark.save(function(err, records) {
         if (err)
