@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">  
     <link rel="stylesheet" href="./css/main.css">
 
 </head>
@@ -19,13 +20,19 @@
 <body ng-controller="mainController">
 	<div class="app-header">
 		<span style='padding-left: 12px;'>Lets Venture Dictionary</span>
-		<div style='padding-left: 16px;font-size:18px;'>- quest to design advance, feature rich online vocabulary builder</div></div>
+		<span class='app_info'>
+			<div>API hits <span class="badge">{{ api_hits }}</span></div>
+			<div>Total Bookmarks <span class="badge">{{ bookmarks.length }}</span></div>
+		</span>
+		<div style='padding-left: 16px;font-size:18px;'>- quest to design advance, feature rich online vocabulary builder</div>
+	</div>
 	<div class="app-content">
 		<div class="container-fluid dictionary_container">
 		    <div class="row">
 		        <div class="col-xs-8 words_container">
 		        	<div class='selected_word'>
 		        		<span class='panel panel-default selected_label' >Selected Word:</span>
+		        		
 			            <span class='panel panel-default selected_label ng-cloak' ng-show="word_selected=='true'" >{{ selected_word.word }}			            	
 			            	<span class="glyphicon glyphicon-volume-up" ng-click="play(selected_word.audio_url)" style="padding-left: 50px;">
 					            <!-- <audio id="audio">
@@ -34,7 +41,17 @@
 					            </audio> -->
 					        </span>
 			            	<span class="glyphicon glyphicon-bookmark" ng-click='createBookmark(selected_word)' style="padding-left:10px"></span>
-			            	<span class="glyphicon glyphicon-share-alt" style="padding-left:10px"></span>
+			            	<a class="right" title="" 
+			            		data-placement="right" 
+			            		data-html='true' 
+			            		data-toggle="popover" 
+			            		href="#" 
+			            		data-original-title='<i class="fa fa-twitter-square"></i>
+			            		<i class="fa fa-facebook-square"></i>
+			            		<i class="fa fa-google-plus-square"></i>
+			            		<i class="fa fa-rss"></i>'>
+			            		<span class='glyphicon glyphicon-share-alt'></span>
+			            	</a>
 			            </span>
 		        	</div>
 		            <div class='search_word'>
@@ -62,12 +79,25 @@
 							<table class="table table-hover table-bordered">
 								<thead>
 									<tr class='row'>
-										<th class='col-xs-4'>Word</th>
-										<th class='col-xs-8'>Description</th>
+										<th class='col-xs-4'>
+											<a href="#" ng-click="sortType = 'word'; sortReverse = !sortReverse">
+										        Word 
+										        <span ng-show="{{sortType == 'word' && !sortReverse}}" class="fa fa-caret-down"></span>
+	            								<span ng-show="{{sortType == 'word' && sortReverse}}" class="fa fa-caret-up"></span>
+										    </a>	
+										</th>
+										<th class='col-xs-8'>
+											<a href="#" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+										        Description 
+										        <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+	            								<span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+										    </a>	
+										
+										</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='row' ng-repeat="result in filteredResults" ng-click='setSelectedWord(result)'>
+									<tr class='row' ng-repeat="result in filteredResults | orderBy:sortType:sortReverse" ng-click='setSelectedWord(result)'>
 										<td class='col-xs-4 ng-cloak' >{{ result.word }}</td>
 										<td class='col-xs-8 ng-cloak' >{{ result.description }}</td>
 									</tr>
@@ -96,9 +126,9 @@
 		            	<div class='bookmarks'>
 		            		<ul class='bookmark-group list-group'>
 		            			<li class='list-group-item' ng-repeat='bookmark in bookmarks'>
-		            				<div class='panel panel-default'>
-		            					<div class='panel-body'>
-				            			<span class='bookmark panel-info'>
+		            				<div class=''>
+		            					<div class=''>
+				            			<span class='bookmark '>
 				            				<span class='glyphicon glyphicon-trash' ng-click='deleteBookmark(bookmark._id)'></span>
 				            				<span class='word ng-cloak' >{{bookmark.word}}</span> 
 				            			</span>
@@ -110,8 +140,8 @@
 		            </div>
 
 		            <div class='bookmarks-controls'>
-		            	<span class='btn btn-default glyphicon glyphicon-cloud-download' title='Download Bookmarks'>Download</span>
-		            	<span class='btn btn-default glyphicon glyphicon-trash' title='Clear History' ng-click='deleteAllBookmarks()'>Clear History</span>
+		            	<span class='btn btn-default glyphicon glyphicon-cloud-download' title='Download Bookmarks' ng-click='download()'></span>
+		            	<span class='btn btn-default glyphicon glyphicon-trash' title='Clear History' ng-click='deleteAllBookmarks()'></span>
 		            </div>
 		        </div>
 		    </div>
@@ -121,8 +151,6 @@
     <div class="app-footer">
     	<span class='copy-right'>© 2012-15 LetsVenture Pvt. Ltd.</span>
     </div>
-
-
     <script src='./js/jquery.min.js'></script>
     <script src='./js/bootstrap.min.js'></script>
     <script src='./js/angular.min.js'></script>
@@ -151,7 +179,7 @@
 				ev.preventDefault();
 				$(this).removeClass('x onX').val('').change();
 			});
-		  
+		jQuery('a').tooltip();
 		  
 		});
     </script>

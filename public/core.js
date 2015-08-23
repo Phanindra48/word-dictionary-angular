@@ -5,7 +5,9 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
     $scope.searchResults = [];
     $scope.selected_word = {};
     $scope.word_selected = 'false';
-    $scope.selected_word_audio_url = '';
+    $scope.sortReverse  = false;
+    $scope.sortType = 'word';
+    $scope.api_hits = 0;
     // when landing on the page, get all bookmarks and show them
     $http.get('/api/bookmarks')
         .success(function(data) {
@@ -16,6 +18,30 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
             console.log('Error: ' + data);
         });
 
+    $http.get('http://letsventure.0x10.info/api/dictionary.php?type=json&query=api_hits')
+        .success(function(data) {
+            $scope.api_hits = data.api_hits;
+            //console.log('phanindra',data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    
+
+    $scope.download = function(){
+        //download json data as file
+        $http.get('/api/bookmarks')
+        .success(function(data) {
+            // var file = new Blob([data], { type: 'application/pdf' });
+            //     saveAs(file, 'filename.pdf');
+            // });
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+    };
     $scope.createBookmark = function(selection) {
         //console.log(selection);
         //console.log('create',selection.word);
@@ -53,6 +79,7 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
                 console.log('Error: ' + data);
             });
     };
+
     $scope.search = function(query){
         $scope.currentPage = 0;
         $http.get('http://letsventure.0x10.info/api/dictionary.php?type=json&query=' + $scope.query).
@@ -90,7 +117,6 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
     $scope.setSelectedWord = function(word){
         $scope.selected_word = word;
         $scope.word_selected = 'true';
-        $scope.selected_word_audio_url = word.audio_url;
     };
 
     $scope.play = function(songPath){

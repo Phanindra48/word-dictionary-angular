@@ -29,10 +29,10 @@ app.get('/', function(req, res) {
 
 //api
 app.get('/api/bookmarks', function(req, res) {
-    console.log('before find');
+    //console.log('before find');
     // use mongoose to get all bookmarks in the database
     Bookmark.find(function(err, bookmarks) {
-        console.log('get bookmarks server side');
+        //console.log('get bookmarks server side');
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)
             res.send(err)
@@ -41,7 +41,7 @@ app.get('/api/bookmarks', function(req, res) {
     });
 });
 
-// create todo and send back all todos after creation
+// create bookmark and send back all bookmarks after creation
 app.post('/api/bookmarks', function(req, res) {
     //console.log('server api got hit');
     var bookmark = new Bookmark({
@@ -55,7 +55,7 @@ app.post('/api/bookmarks', function(req, res) {
         if (err)
             res.send(err);
 
-        // get and return all the todos after you create another
+        // get and return all the bookmarks after you create another
         Bookmark.find(function(err, bookmarks) {
             if (err)
                 res.send(err)
@@ -73,7 +73,7 @@ app.delete('/api/bookmarks/:word_id', function(req, res) {
         if (err)
             res.send(err);
 
-        // get and return all the todos after you create another
+        // get and return all the bookmarks after you create another
         Bookmark.find(function(err, bookmarks) {
             if (err)
                 res.send(err)
@@ -88,7 +88,7 @@ app.delete('/api/bookmarks/', function(req, res) {
         if (err)
             res.send(err);
 
-        // get and return all the todos after you create another
+        // get and return all the bookmarks after you create another
         Bookmark.find(function(err, bookmarks) {
             if (err)
                 res.send(err)
