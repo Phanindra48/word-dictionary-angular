@@ -1,11 +1,11 @@
 var dictApp = angular.module('dictApp', ['ui.bootstrap']);
 
-dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
+dictApp.controller('mainController',['$scope','$http','audio',function($scope, $http, audio) {
     $scope.formData = {};
     $scope.searchResults = [];
     $scope.selected_word = {};
-    
-
+    $scope.word_selected = 'false';
+    $scope.selected_word_audio_url = '';
     // when landing on the page, get all bookmarks and show them
     $http.get('/api/bookmarks')
         .success(function(data) {
@@ -17,8 +17,8 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
         });
 
     $scope.createBookmark = function(selection) {
-        console.log(selection);
-        console.log('create',selection.word);
+        //console.log(selection);
+        //console.log('create',selection.word);
         $scope.formData = {
             word : selection.word,
             audio_url : selection.audio_url,
@@ -26,9 +26,7 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
         };
         $http.post('/api/bookmarks', $scope.formData)
             .success(function(data) {
-                $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.bookmarks = data;
-                //console.log(data);
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -36,16 +34,25 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
     };
 
     $scope.deleteBookmark = function(id) {
+        //console.log('delete bm',id);
         $http.delete('/api/bookmarks/' + id)
             .success(function(data) {
                 $scope.bookmarks = data;
-                console.log(data);
             })
             .error(function(data) {
                 console.log('Error: ' + data);
             });
     };
 
+    $scope.deleteAllBookmarks = function() {
+        $http.delete('/api/bookmarks/')
+            .success(function(data) {
+                $scope.bookmarks = data;
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
     $scope.search = function(query){
         $scope.currentPage = 0;
         $http.get('http://letsventure.0x10.info/api/dictionary.php?type=json&query=' + $scope.query).
@@ -54,7 +61,7 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
                     $scope.searchResults = response.data;
                     $scope.totalItems = response.data.length;
                     $scope.currentPage = 1;
-                    console.log(response);
+                    //console.log(response);
                 }
             }, function(response) {
             console.log(response);
@@ -64,7 +71,7 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
     //pagination data
     $scope.filteredResults = []
     ,$scope.currentPage = 0
-    ,$scope.numPerPage = 10
+    ,$scope.numPerPage = 12
     ,$scope.maxSize = 5;
 
     $scope.setPage = function (pageNo) {
@@ -81,13 +88,15 @@ dictApp.controller('mainController',['$scope','$http',function($scope, $http) {
     
     //selected word
     $scope.setSelectedWord = function(word){
-        $scope.selected_word = word
+        $scope.selected_word = word;
+        $scope.word_selected = 'true';
+        $scope.selected_word_audio_url = word.audio_url;
     };
 
-    $scope.play = function(id){
-        var audio = document.getElementById(id);
-        audio.play();
-    }
+    $scope.play = function(songPath){
+        audio.play(songPath);
+    };
+
 }]);
 
 dictApp.controller('ChildController', ['$scope', function($scope) {
@@ -108,4 +117,18 @@ dictApp.directive('keypress', function () {
             }
         });
     };
+});
+
+
+// Define a simple audio service 
+dictApp.factory('audio',function ($document) {
+  var audioElement = $document[0].createElement('audio'); // <-- Magic trick here
+  return {
+    audioElement: audioElement,
+
+    play: function(filename) {
+        audioElement.src = filename;
+        audioElement.play();     //  <-- Thats all you need
+    }
+  }
 });

@@ -43,13 +43,13 @@ app.get('/api/bookmarks', function(req, res) {
 
 // create todo and send back all todos after creation
 app.post('/api/bookmarks', function(req, res) {
-    console.log('server api got hit');
+    //console.log('server api got hit');
     var bookmark = new Bookmark({
         word: req.body.word,
         description: req.body.description,
         audio_url : req.body.audio_url
     });
-    console.log(bookmark);
+    //console.log(bookmark);
     // create a bookmark, information comes from AJAX request from Angular
     bookmark.save(function(err, records) {
         if (err)
@@ -65,7 +65,7 @@ app.post('/api/bookmarks', function(req, res) {
 
 });
 
-// delete a todo
+// delete a bookmark
 app.delete('/api/bookmarks/:word_id', function(req, res) {
     Bookmark.remove({
         _id : req.params.word_id
@@ -77,9 +77,22 @@ app.delete('/api/bookmarks/:word_id', function(req, res) {
         Bookmark.find(function(err, bookmarks) {
             if (err)
                 res.send(err)
-            res.json({
-                test : 'success'
-            });
+            res.json(bookmarks);
+        });
+    });
+});
+
+// delete all bookmark
+app.delete('/api/bookmarks/', function(req, res) {
+    Bookmark.remove({}, function(err, records) {
+        if (err)
+            res.send(err);
+
+        // get and return all the todos after you create another
+        Bookmark.find(function(err, bookmarks) {
+            if (err)
+                res.send(err)
+            res.json(bookmarks);
         });
     });
 });

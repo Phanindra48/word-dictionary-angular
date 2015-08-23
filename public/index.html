@@ -17,32 +17,45 @@
 </head>
 
 <body ng-controller="mainController">
-	<div class="app-header">Here comes the Header!!</div>
+	<div class="app-header">
+		<span style='padding-left: 12px;'>Lets Venture Dictionary</span>
+		<div style='padding-left: 16px;font-size:18px;'>- quest to design advance, feature rich online vocabulary builder</div></div>
 	<div class="app-content">
 		<div class="container-fluid dictionary_container">
 		    <div class="row">
 		        <div class="col-xs-8 words_container">
-		        	<div>
-		        		<label>Selected Word:</label>
-			            <label>{{ selected_word.word }}			            	
-			            	<span class="glyphicon glyphicon-volume-up" ng-click="play('audio')">
-					            <audio id="audio">
-					                <source src={{ selected_word.audio_url }}></source>
+		        	<div class='selected_word'>
+		        		<span class='panel panel-default selected_label' >Selected Word:</span>
+			            <span class='panel panel-default selected_label ng-cloak' ng-show="word_selected=='true'" >{{ selected_word.word }}			            	
+			            	<span class="glyphicon glyphicon-volume-up" ng-click="play(selected_word.audio_url)" style="padding-left: 50px;">
+					            <!-- <audio id="audio">
+					                <source ng-src='phanindra' ></source>
 					            Your browser isn't invited for super fun audio time.
-					            </audio>
+					            </audio> -->
 					        </span>
-			            	<span class="glyphicon glyphicon-bookmark" ng-click='createBookmark(selected_word)'></span>
-			            	<span class="glyphicon glyphicon-share-alt"></span>
-			            </label>
+			            	<span class="glyphicon glyphicon-bookmark" ng-click='createBookmark(selected_word)' style="padding-left:10px"></span>
+			            	<span class="glyphicon glyphicon-share-alt" style="padding-left:10px"></span>
+			            </span>
 		        	</div>
 		            <div class='search_word'>
-		            	<input type='text' 
+		            	<!-- <input type='text' 
 		            		value='' 
 		            		ng-model='query'
 		            		id='search_box' 
 		            		autofocus
 		            		keypress='search(query)'
-		            		placeholder='Search'/>
+		            		placeholder='Search'/> -->
+		            		<div class="input-group">
+								<span class="input-group-addon"><span class='glyphicon glyphicon-search'></span></span>
+								<input type='text' 
+				            		value='' 
+				            		ng-model='query'
+				            		id='search_box' 
+				            		autofocus
+				            		class='form-control clearable'
+				            		keypress='search(query)'
+				            		placeholder='Search'/>
+							</div>
 		            </div>
 		            <div class='search_results'>
 		            	<div class="table-responsive">
@@ -55,17 +68,18 @@
 								</thead>
 								<tbody>
 									<tr class='row' ng-repeat="result in filteredResults" ng-click='setSelectedWord(result)'>
-										<td class='col-xs-4'>{{ result.word }}</td>
-										<td class='col-xs-8'>{{ result.description }}</td>
+										<td class='col-xs-4 ng-cloak' >{{ result.word }}</td>
+										<td class='col-xs-8 ng-cloak' >{{ result.description }}</td>
 									</tr>
 								</tbody>
 							</table>
 						    <pagination 
 						      ng-model="currentPage"
-						      total-items="searchResults.length"
+						      total-items="totalItems"
 						      max-size="maxSize"  
 						      boundary-links="true"
-						      class='pull-right'>
+						      class='pull-right'
+						      ng-show="totalItems > 0">
 						    </pagination>
 						    <hr/>
 						</div>
@@ -73,28 +87,73 @@
 		        </div>
 		        <div class="col-xs-4 bookmarks_container">
 		            <div class='bookmark-header'>
-		            	<label><span class='glyphicon glyphicon-list'></span>Bookmark History</label>
+		            	<label>
+		            		<span class='glyphicon glyphicon-list'></span>
+		            		<span>Bookmark History</span>
+		            	</label>
 		            </div>
 		            <div class='bookmark-content'>
 		            	<div class='bookmarks'>
-		            		<div ng-repeat='bookmark in bookmarks'>
-		            			<span class='bookmark'>{{bookmark.word}} <span class='glyphicon glyphicon-align-justify'></span></span>
-		            		</div>
+		            		<ul class='bookmark-group list-group'>
+		            			<li class='list-group-item' ng-repeat='bookmark in bookmarks'>
+		            				<div class='panel panel-default'>
+		            					<div class='panel-body'>
+				            			<span class='bookmark panel-info'>
+				            				<span class='glyphicon glyphicon-trash' ng-click='deleteBookmark(bookmark._id)'></span>
+				            				<span class='word ng-cloak' >{{bookmark.word}}</span> 
+				            			</span>
+				            		</div>
+		            				</div>
+		            			</li>
+		            		</ul>
 		            	</div>
+		            </div>
+
+		            <div class='bookmarks-controls'>
+		            	<span class='btn btn-default glyphicon glyphicon-cloud-download' title='Download Bookmarks'>Download</span>
+		            	<span class='btn btn-default glyphicon glyphicon-trash' title='Clear History' ng-click='deleteAllBookmarks()'>Clear History</span>
 		            </div>
 		        </div>
 		    </div>
 		</div>
 	</div>
 	
-    <div class="app-footer">This is footer!!</div>
+    <div class="app-footer">
+    	<span class='copy-right'>© 2012-15 LetsVenture Pvt. Ltd.</span>
+    </div>
+
+
     <script src='./js/jquery.min.js'></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src='./js/bootstrap.min.js'></script>
+    <script src='./js/angular.min.js'></script>
+    <script src='./js/angular-animate.js'></script>
+   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script> -->
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.3.js"></script>
     
     
     <script src="core.js"></script>
+    <script type="text/javascript">
+    	jQuery(function($) {
+			// /////
+			// CLEARABLE INPUT
+			function tog(v){
+				return v ? 'addClass':'removeClass';
+			} 
+			$(document).on('input', '.clearable', function(){
+				$(this)[tog(this.value)]('x');
+			})
+			.on('mousemove', '.x', function( e ){
+				$(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
+			})
+			.on('touchstart click', '.onX', function( ev ){
+				ev.preventDefault();
+				$(this).removeClass('x onX').val('').change();
+			});
+		  
+		  
+		});
+    </script>
 </body>
 </html>
