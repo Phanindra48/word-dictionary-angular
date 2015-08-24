@@ -33,11 +33,22 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
         //download json data as file
         $http.get('/api/bookmarks')
         .success(function(data) {
-            // var file = new Blob([data], { type: 'application/pdf' });
-            //     saveAs(file, 'filename.pdf');
-            // });
             console.log(data);
-        })
+            var html = '<table border="1">';
+            angular.forEach(data
+                , function(obj , key){
+                    html += '<tr>';
+                    html += '<td>' + obj.word + '</td>';
+                    html += '<td>' + obj.description + '</td>';
+                    html += '</tr>';
+                    
+                });
+            html += '</table>';
+            //console.log(html);
+            var file = new Blob([html], { type: "application/xhtml+xml;charset=UTF-8" });
+                saveAs(file, 'filename.htm');
+            })
+            
         .error(function(data) {
             console.log('Error: ' + data);
         });

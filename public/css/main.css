@@ -1,0 +1,148 @@
+body{
+	overflow: hidden;
+}
+.dictionary_container {
+	width :100%;
+}
+
+.words_container {
+	width: 75%;
+    height: 818px;
+
+}
+.bookmarks_container{
+	width: 25%;
+	height: 818px;
+}
+
+.app-footer{
+	background-color: #10100E;
+	height: 70px;
+	color: white;
+    font-size: 15px;
+    padding-top: 4px;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+.copy-right{
+	color: #cdcdcd;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #10100E;
+    width: 100%;
+    display: inline-block;
+    padding: 0 15px;
+    font-size: 16px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.app-header{
+	background-color: #7323dc;
+    height: 80px;
+    color: white;
+    font-size: 34px;
+    padding-bottom: 4px
+}
+
+.bookmarks-controls {
+	position: absolute;
+	    bottom: 5px;
+    left: 40%;
+}
+.bookmark-group{
+	padding: 0;
+}
+.bookmark-group li {
+    list-style: none;
+}
+.panel-info {
+    float: left;
+    margin: 0 10px;
+}
+
+.word {
+	padding: 4px;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.bookmarks{
+	height: 740px;
+    width: auto;
+    overflow-y: auto;
+}
+
+.selected_label{
+    vertical-align: inherit;
+    padding: 4px;
+    font-size: 20px;
+}
+
+.selected_word{
+	padding-top: 10px;
+}
+
+.input-group .form-control {
+	width:50% !important;
+}
+
+.clearable{
+  background: #fff url(data:image/gif;base64,R0lGODlhBwAHAIAAAP///5KSkiH5BAAAAAAALAAAAAAHAAcAAAIMTICmsGrIXnLxuDMLADs=) no-repeat right -10px center;
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px; /* Use the same right padding (18) in jQ! */
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+.clearable.x  { background-position: right 5px center; }
+.clearable.onX{ cursor: pointer; }
+
+.search_word {
+	padding: 10px 0 10px 0;
+}
+
+.panel {
+	margin-bottom: 0 !important;
+}
+
+.bookmark-header{
+	padding: 5px;
+}
+
+.app_info{
+	float: right;
+    margin: 4px;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.badge {
+	background-color: #1fc055 !important;
+}
+
+a{
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+.selected_word a {
+	color:black !important;
+}
+
+
+.selected_word a:hover {
+	color:black !important;
+}
+
+.fa {
+	font-size: 18px !important;
+    padding: 1px !important;
+}
