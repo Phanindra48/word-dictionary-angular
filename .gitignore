@@ -32,8 +32,3 @@ bower_components
 .idea
 *.iml
 .DS_Store
-
-# Compiled files
-public/css/*
-public/js/*
-app/components/test.js
