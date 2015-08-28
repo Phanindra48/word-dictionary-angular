@@ -4,7 +4,7 @@ var morgan = require('morgan');
 var mongoose = require('mongoose');  
 var bodyParser = require('body-parser');  
 var methodOverride = require('method-override');
-
+var config  = require('./config');
 var Bookmark = require('./model/bookmarks'); 
 
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
@@ -17,9 +17,9 @@ app.use(methodOverride());
 
 
 
-mongoose.connect('localhost');
-mongoose.connection.on('error', function() {
-  console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?');
+mongoose.connect(config.database);
+mongoose.connection.on('error', function(err) {
+  console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?',err);
 });
 // application -------------------------------------------------------------
 app.get('/', function(req, res) {
