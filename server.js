@@ -99,5 +99,5 @@ app.delete('/api/bookmarks/', function(req, res) {
 });
 
 // listen (start app with node server.js) ======================================
-app.listen(8080);
+app.listen(config.port);
 console.log("App listening on port 8080");
