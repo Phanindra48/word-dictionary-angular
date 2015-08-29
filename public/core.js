@@ -18,7 +18,7 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
             console.log('Error: ' + data);
         });
 
-    $http.get('http://letsventure.0x10.info/api/dictionary.php?type=json&query=api_hits')
+    $http.get('https://letsventure.0x10.info/api/dictionary.php?type=json&query=api_hits')
         .success(function(data) {
             $scope.api_hits = data.api_hits;
             //console.log('phanindra',data);
@@ -93,7 +93,7 @@ dictApp.controller('mainController',['$scope','$http','audio',function($scope, $
 
     $scope.search = function(query){
         $scope.currentPage = 0;
-        $http.get('http://letsventure.0x10.info/api/dictionary.php?type=json&query=' + $scope.query).
+        $http.get('https://letsventure.0x10.info/api/dictionary.php?type=json&query=' + $scope.query).
             then(function(response) {
                 if(response.status === 200){
                     $scope.searchResults = response.data;
