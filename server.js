@@ -17,10 +17,11 @@ app.use(methodOverride());
 
 
 
-mongoose.connect(config.database);
-mongoose.connection.on('error', function(err) {
-  console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?',err);
+mongoose.connect(config.database,function(error){
+    if (error) console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?',error);
+    else console.log('mongo connected to -> ',config.database);
 });
+
 // application -------------------------------------------------------------
 app.get('/', function(req, res) {
     res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
